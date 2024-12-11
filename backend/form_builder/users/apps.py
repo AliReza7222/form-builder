@@ -10,4 +10,4 @@ class UsersConfig(AppConfig):
 
     def ready(self):
         with contextlib.suppress(ImportError):
-            import form_builder.users.signals  # noqa: F401
+            import form_builder.users.signals  # type: ignore

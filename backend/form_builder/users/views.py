@@ -3,9 +3,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import QuerySet
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import DetailView
-from django.views.generic import RedirectView
-from django.views.generic import UpdateView
+from django.views.generic import DetailView, RedirectView, UpdateView
 
 from form_builder.users.models import User
 
@@ -26,11 +24,11 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_success_url(self) -> str:
         assert self.request.user.is_authenticated  # type guard
-        return self.request.user.get_absolute_url()
+        return self.request.user.get_absolute_url()  # type: ignore
 
-    def get_object(self, queryset: QuerySet | None=None) -> User:
+    def get_object(self, queryset: QuerySet | None = None) -> User:
         assert self.request.user.is_authenticated  # type guard
-        return self.request.user
+        return self.request.user  # type: ignore
 
 
 user_update_view = UserUpdateView.as_view()
