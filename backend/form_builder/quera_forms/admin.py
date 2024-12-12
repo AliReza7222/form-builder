@@ -1,7 +1,6 @@
 from django.contrib import admin
 
 from .enums import TabFormAdminPanel
-from .fields import *
 from .forms import QuestionForm
 from .models import Form, Question
 
@@ -17,20 +16,23 @@ class QuestionInline(admin.StackedInline):
 
 @admin.register(Form)
 class FormAdmin(admin.ModelAdmin):
-    list_display = FORM_DISPLAY_FIELDS
-    search_fields = FORM_SEARCH_FIELDS
-    readonly_fields = FORM_READONLY_FIELDS
+    list_display = ("title", "created_by", "created_at")
+    search_fields = ("title", "created_by__username")
+    readonly_fields = (
+        "created_by",
+        "created_at",
+        "updated_by",
+        "updated_at",
+    )
     inlines = [QuestionInline]
 
     def get_fieldsets(self, request, obj=None):
-        fieldsets = (
-            (TabFormAdminPanel.GENERAL.value, {"fields": FORM_GENERAL_FIELDS}),
-        )
+        fieldsets = ((TabFormAdminPanel.GENERAL.value, {"fields": ("title",)}),)
         if obj:
             fieldsets += (
                 (
                     TabFormAdminPanel.INFO.value,
-                    {"fields": FORM_READONLY_FIELDS},
+                    {"fields": self.readonly_fields},
                 ),
             )
         return fieldsets
