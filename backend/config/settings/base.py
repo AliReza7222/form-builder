@@ -74,6 +74,7 @@ THIRD_PARTY_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "rest_framework",
+    "rest_framework.authtoken",
     "corsheaders",
     "drf_spectacular",
 ]
@@ -262,6 +263,7 @@ REDIS_SSL = REDIS_URL.startswith("rediss://")
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
@@ -278,7 +280,6 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "form_builder API",
     "DESCRIPTION": "Documentation of API endpoints of form_builder",
     "VERSION": "1.0.0",
-    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
     "SCHEMA_PATH_PREFIX": "/api/",
 }
 # Your stuff...
