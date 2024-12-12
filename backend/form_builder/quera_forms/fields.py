@@ -14,5 +14,5 @@ FORM_DISPLAY_FIELDS = (
 )
 FORM_SEARCH_FIELDS = (
     "title",
-    "created_by__email",
+    "created_by__username",
 )

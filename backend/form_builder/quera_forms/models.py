@@ -73,25 +73,50 @@ class Question(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"{self.form} | {self.type}"
+        return f"Question for {self.form} | {self.type}"
 
     class Meta:
         indexes = [models.Index(fields=["type"], name="question_type_idx")]
 
 
+class Response(models.Model):
+    form = models.ForeignKey(  # type: ignore
+        Form,
+        on_delete=models.CASCADE,
+        related_name="responses",
+        verbose_name=_("Form"),
+    )
+    user_identifier = models.EmailField(verbose_name=_("User Email"))  # type: ignore
+    created_at = models.DateTimeField(auto_now_add=True)  # type: ignore
+
+    def __str__(self):
+        return f"Response for {self.form.title} by {self.user_identifier}"
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["user_identifier"], name="user_identifier_idx")
+        ]
+
+
 class Answer(models.Model):
+    response = models.ForeignKey(  # type: ignore
+        Response,
+        on_delete=models.CASCADE,
+        related_name="answers",
+        verbose_name=_("User Response"),
+    )
     question = models.ForeignKey(  # type: ignore
         Question,
         on_delete=models.CASCADE,
         related_name="answers",
         verbose_name=_("Question"),
     )
-    user = models.ForeignKey(  # type: ignore
-        User,
-        on_delete=models.CASCADE,
-        related_name="users",
-        verbose_name=_("User"),
-    )
     answer_text = models.TextField(  # type: ignore
-        blank=True, null=True, verbose_name=_("Answer")
+        blank=True, null=True, verbose_name=_("Answer Text")
     )
+    answer_number = models.FloatField(  # type: ignore
+        blank=True, null=True, verbose_name=_("Answer Number")
+    )
+
+    def __str__(self):
+        return f"Answer to {self.question}"
