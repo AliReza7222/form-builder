@@ -50,9 +50,9 @@ class Question(models.Model):
         verbose_name=_("Form"),
     )
     question_text = models.CharField(  # type: ignore
-        max_length=250, verbose_name=_("Question Text")
+        max_length=300, verbose_name=_("Question Text")
     )
-    help_text = models.CharField(_("Help text"), blank=True, max_length=250)  # type: ignore
+    help_text = models.CharField(_("Help text"), blank=True, max_length=300)  # type: ignore
     required = models.BooleanField(default=True, verbose_name=_("Required"))  # type: ignore
     type = models.CharField(  # type: ignore
         max_length=50,
