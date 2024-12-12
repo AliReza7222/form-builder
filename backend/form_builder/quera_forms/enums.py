@@ -6,3 +6,8 @@ class QuestionTypeEnum(BaseEnum):
     LONG_TEXT = "Long Text"
     EMAIL = "Email"
     NUMBER = "Number"
+
+
+class TabFormAdminPanel(BaseEnum):
+    GENERAL = "General"
+    INFO = "Info"

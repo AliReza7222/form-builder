@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from .enums import QuestionTypeEnum
@@ -12,9 +13,30 @@ class Form(models.Model):
         max_length=100, verbose_name=_("Title"), unique=True
     )
     created_at = models.DateTimeField(auto_now_add=True)  # type: ignore
+    created_by = models.ForeignKey(  # type: ignore
+        User,
+        on_delete=models.CASCADE,
+        related_name="created_by",
+        verbose_name=_("Created By"),
+    )
+    updated_by = models.ForeignKey(  # type: ignore
+        User,
+        on_delete=models.CASCADE,
+        related_name="updated_by",
+        verbose_name=_("Updated By"),
+    )
+    updated_at = models.DateTimeField(auto_now=True)  # type: ignore
 
     def __str__(self) -> str:
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.created_at = timezone.now()
+
+        self.updated_at = timezone.now()
+
+        super().save(*args, **kwargs)
 
     class Meta:
         indexes = [models.Index(fields=["title"], name="form_title_idx")]
