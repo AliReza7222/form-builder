@@ -9,6 +9,16 @@ Creating a form builder project for Quora College
 
 Moved to [settings](https://cookiecutter-django.readthedocs.io/en/latest/1-getting-started/settings.html).
 
+## Docs
+
+We use Sphinx for documenting the project. It has it's own docker compose. To see it, simply run:
+
+```bash
+docker compose -f docs.yml up -d
+```
+
+Then you can visit [docs page](http://0.0.0.0:9000)
+
 ## Basic Commands
 
 ### Setting Up Your Users
@@ -20,6 +30,27 @@ Moved to [settings](https://cookiecutter-django.readthedocs.io/en/latest/1-getti
       $ python manage.py createsuperuser
 
 For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
+
+### Run Project
+
+- To run the project locally, use Docker Compose. Simply execute the following command:
+
+```bash
+docker compose -f local.yml up -d
+```
+
+- you can createsuper user with command:
+
+```bash
+docker compose -f local.yml run django python manage.py createsuperuser
+```
+
+
+### Documenting Swagger
+
+- You can view the API documentation via Swagger at the following address:
+
+- you can visit [swagger page](http://0.0.0.0:8000/api/docs)
 
 ### Type checks
 

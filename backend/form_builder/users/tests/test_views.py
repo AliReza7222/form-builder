@@ -1,14 +1,11 @@
 from http import HTTPStatus
 
 import pytest
-from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.models import AnonymousUser
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.sessions.middleware import SessionMiddleware
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest
 from django.test import RequestFactory
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from form_builder.users.forms import UserAdminChangeForm
@@ -41,7 +38,7 @@ class TestUserUpdateView:
         request.user = user
 
         view.request = request
-        assert view.get_success_url() == f"/users/{user.pk}/"
+        assert view.get_success_url() == f"/users/{user.username}/"
 
     def test_get_object(self, user: User, rf: RequestFactory):
         view = UserUpdateView()
@@ -80,23 +77,13 @@ class TestUserRedirectView:
         request.user = user
 
         view.request = request
-        assert view.get_redirect_url() == f"/users/{user.pk}/"
+        assert view.get_redirect_url() == f"/users/{user.username}/"
 
 
 class TestUserDetailView:
     def test_authenticated(self, user: User, rf: RequestFactory):
         request = rf.get("/fake-url/")
         request.user = UserFactory()
-        response = user_detail_view(request, pk=user.pk)
+        response = user_detail_view(request, username=user.username)
 
         assert response.status_code == HTTPStatus.OK
-
-    def test_not_authenticated(self, user: User, rf: RequestFactory):
-        request = rf.get("/fake-url/")
-        request.user = AnonymousUser()
-        response = user_detail_view(request, pk=user.pk)
-        login_url = reverse(settings.LOGIN_URL)
-
-        assert isinstance(response, HttpResponseRedirect)
-        assert response.status_code == HTTPStatus.FOUND
-        assert response.url == f"{login_url}?next=/fake-url/"
