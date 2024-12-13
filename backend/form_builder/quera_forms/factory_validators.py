@@ -5,8 +5,9 @@ from .validators import *
 
 
 class BaseValidatorFactory(ABC):
+    @staticmethod
     @abstractmethod
-    def validators(self):
+    def validators():
         pass
 
     @classmethod
@@ -16,7 +17,8 @@ class BaseValidatorFactory(ABC):
 
 
 class QuestionValidatorFactory(BaseValidatorFactory):
-    def validators(self):
+    @staticmethod
+    def validators():
         return {
             QuestionTypeEnum.SHORT_TEXT.name: ShortTextValidator(),
             QuestionTypeEnum.LONG_TEXT.name: LongTextValidator(),
@@ -25,11 +27,12 @@ class QuestionValidatorFactory(BaseValidatorFactory):
 
     @classmethod
     def get_validator(cls, question_type):
-        return cls.validators.get(question_type, DefaultValidator())
+        return cls.validators().get(question_type, DefaultValidator())
 
 
 class AnswerValidatorFactory(BaseValidatorFactory):
-    def validators(self):
+    @staticmethod
+    def validators():
         return {
             QuestionTypeEnum.SHORT_TEXT.name: TextAnswerValidator(),
             QuestionTypeEnum.LONG_TEXT.name: TextAnswerValidator(),
@@ -39,4 +42,4 @@ class AnswerValidatorFactory(BaseValidatorFactory):
 
     @classmethod
     def get_validator(cls, question_type):
-        return cls.validators.get(question_type)
+        return cls.validators().get(question_type)
