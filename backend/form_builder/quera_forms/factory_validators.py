@@ -1,10 +1,5 @@
 from .enums import QuestionTypeEnum
-from .validators import (
-    DefaultValidator,
-    LongTextValidator,
-    NumberValidator,
-    ShortTextValidator,
-)
+from .validators import *
 
 
 class QuestionValidatorFactory:
@@ -17,3 +12,16 @@ class QuestionValidatorFactory:
     @classmethod
     def get_validator(cls, question_type):
         return cls.validators.get(question_type, DefaultValidator())
+
+
+class AnswerValidatorFactory:
+    validators = {
+        QuestionTypeEnum.SHORT_TEXT.name: TextAnswerValidator(),
+        QuestionTypeEnum.LONG_TEXT.name: TextAnswerValidator(),
+        QuestionTypeEnum.EMAIL.name: EmailAnswerValidator(),
+        QuestionTypeEnum.NUMBER.name: NumberAnswerValidator(),
+    }
+
+    @classmethod
+    def get_validator(cls, question_type):
+        return cls.validators.get(question_type)
