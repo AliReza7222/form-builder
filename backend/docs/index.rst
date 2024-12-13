@@ -7,11 +7,12 @@ Welcome to form_builder's documentation!
 ======================================================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    howto
    users
+   quera_forms
 
 
 
