@@ -43,7 +43,7 @@ docker compose -f local.yml up -d
 
 - You can view the API documentation via Swagger at the following address:
 
-Then you can visit [docs page](http://0.0.0.0:8000/api/docs)
+you can visit [swagger page](http://0.0.0.0:8000/api/docs)
 
 ### Type checks
 
