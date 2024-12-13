@@ -21,4 +21,4 @@ class User(AbstractUser):
             str: URL for user detail.
 
         """
-        return reverse("users:detail", kwargs={"pk": self.id})  # type: ignore
+        return reverse("users:detail", kwargs={"username": self.username})  # type: ignore
