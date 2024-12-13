@@ -31,7 +31,7 @@ Then you can visit [docs page](http://0.0.0.0:9000)
 
 For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
 
-### Run Projet
+### Run Project
 
 - To run the project locally, use Docker Compose. Simply execute the following command:
 
