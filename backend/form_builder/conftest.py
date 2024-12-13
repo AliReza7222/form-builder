@@ -6,6 +6,7 @@ from rest_framework.test import APIClient
 from form_builder.quera_forms.enums import QuestionTypeEnum
 from form_builder.quera_forms.models import Form, Question
 from form_builder.users.models import User
+from form_builder.users.tests.factories import UserFactory
 
 
 @pytest.fixture(autouse=True)
@@ -14,13 +15,8 @@ def _media_storage(settings, tmpdir) -> None:
 
 
 @pytest.fixture
-def create_random_user(fake: Faker, django_user_model: User):
-    def fake_user():
-        return django_user_model.objects.create_user(
-            username=fake.user_name(), password="password12345", is_staff=True
-        )
-
-    return fake_user
+def user(db) -> User:
+    return UserFactory()
 
 
 @pytest.fixture
@@ -29,8 +25,7 @@ def fake() -> Faker:
 
 
 @pytest.fixture
-def token(db, create_random_user) -> Token:
-    user = create_random_user()
+def token(db, user) -> Token:
     return Token.objects.create(user=user)
 
 
@@ -40,15 +35,14 @@ def client(db) -> APIClient:
 
 
 @pytest.fixture
-def create_random_form(db, fake, create_random_user):
+def create_random_form(db, fake, user):
     def fake_form():
-        created_by = create_random_user()
         created_at = fake.date_time()
         return Form.objects.create(
             title=fake.company(),
             created_at=created_at,
-            created_by=created_by,
-            updated_by=created_by,
+            created_by=user,
+            updated_by=user,
             updated_at=created_at,
         )
 
