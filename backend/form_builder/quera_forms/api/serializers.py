@@ -73,9 +73,7 @@ class ResponseSerializer(serializers.ModelSerializer):
         form = data.get("form")
         question_ids = {question.id for question in form.questions.all()}
         required_questions = [
-            question.id
-            for question in form.questions.all()
-            if question.required
+            question.id for question in form.questions.filter(required=True)
         ]
         provided_answers = {
             answer.get("question").id for answer in data.get("answers")
