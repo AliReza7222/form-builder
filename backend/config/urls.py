@@ -31,7 +31,10 @@ urlpatterns = [
 urlpatterns += [
     # API base url
     path("api/", include("config.api_router")),
-    path("api/quera_forms/", include("form_builder.quera_forms.api.urls")),
+    path(
+        "api/quera_forms/",
+        include("form_builder.quera_forms.api.urls", namespace="quera_forms"),
+    ),
     # DRF auth token
     path("api/auth-token/", obtain_auth_token),
     path("api/schema/", SpectacularAPIView.as_view(), name="api-schema"),
