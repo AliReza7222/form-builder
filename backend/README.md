@@ -39,6 +39,13 @@ For convenience, you can keep your normal user logged in on Chrome and your supe
 docker compose -f local.yml up -d
 ```
 
+- you can createsuper user with command:
+
+```bash
+docker compose -f local.yml run django python manage.py createsuperuser
+```
+
+
 ### Documenting Swagger
 
 - You can view the API documentation via Swagger at the following address:
